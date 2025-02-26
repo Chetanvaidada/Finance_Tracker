@@ -16,7 +16,7 @@ passport.use(
             clientID: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
             callbackURL: process.env.NODE_ENV === "production"
-            ? "https://fj-be-r2-chetan-vaidada-iiitp.vercel.app//auth/google/callback"
+            ? "https://fj-be-r2-chetan-vaidada-iiitp.vercel.app/auth/google/callback"
             : `http://localhost:${PORT}/auth/google/callback`,
         },
         async (accessToken, refreshToken, profile, done) => {

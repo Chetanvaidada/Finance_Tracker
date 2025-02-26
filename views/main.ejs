@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Financial Dashboard</title>
+  <link rel="stylesheet" href="/stylesheets/maincss.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <!-- Profile, Monthly Analysis, and Statistics Links -->
+  <div class="top-right-links">
+    <a href="/user/profile" class="top-right">Profile</a>
+    <a href="/monthly-analysis" class="top-right">Monthly Reports</a>
+    <a href="/statistics" class="top-right">Statistics & Budget Management</a>
+    <a href="/split/" class="top-right">Splits</a>
+  </div>
+  
+  <h1>Dashboard</h1>
+  <div class="dashboard-section">
+    <div class="financial-summary">
+      <div class="financial-card">
+        <h3>Total Income</h3>
+        <div class="financial-value income">$<%= totalIncome %></div>
+      </div>
+      
+      <div class="financial-card">
+        <h3>Total Expenses</h3>
+        <div class="financial-value expense">$<%= totalExpense %></div>
+      </div>
+      
+      <div class="financial-card">
+        <h3>Balance</h3>
+        <div class="financial-value balance">$<%= balance %></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-section">
+    <h3>Income vs Expenses</h3>
+
+    <% if (totalIncome == 0 && totalExpense == 0) { %>
+      <p>No transactions yet. Please <a href="/transactions/add">add some transactions</a>.</p>
+    <% } else { %>
+      <div class="chart-container">
+        <canvas id="incomeExpenseChart"></canvas>
+      </div>
+    <% } %>
+  </div>
+
+  <a href="/transactions/add" class="add-button">Add a new transaction</a>
+
+  <div class="dashboard-section">
+    <h3>Your Transactions</h3>
+    <div class="transactions-table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Source/Category</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% transactions.forEach(transaction => { %>
+            <tr>
+              <td><%= transaction.type %></td>
+              <td><%= transaction.source || transaction.category %></td>
+              <td>$<%= transaction.amount %></td>
+              <td><%= new Date(transaction.date).toLocaleDateString() %></td>
+              <td class="action-links">
+                <a href="/transactions/<%= transaction.id %>/edit">Edit</a> | 
+                <a href="/transactions/<%= transaction.id %>/delete">Delete</a>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // Data for the chart
+    const ctx = document.getElementById('incomeExpenseChart').getContext('2d');
+    const incomeExpenseChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Income', 'Expenses'],
+        datasets: [{
+          data: [<%= totalIncome || 0 %>, <%= totalExpense || 0 %>],
+          backgroundColor: ['#10b981', '#ef4444'],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            position: 'bottom'
+          },
+          tooltip: {
+            callbacks: {
+              label: function(tooltipItem) {
+                return tooltipItem.label + ': $' + tooltipItem.raw.toFixed(2);
+              }
+            }
+          }
+        },
+        cutout: '65%'
+      }
+    });
+  </script>
+</body>
+</html>

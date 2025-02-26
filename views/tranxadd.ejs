@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Transaction</title>
+  <link rel="stylesheet" href="/stylesheets/traxaddcss.css">
+</head>
+<body>
+  <div class="header-container">
+    <a href="/mainPage" class="back-link">
+      <span class="back-icon">←</span>
+    </a>
+    <h1>Add a New Transaction</h1>
+  </div>
+
+  <div class="form-container">
+    <form action="/transactions" method="POST">
+      <label for="type">Type:</label>
+      <select id="type" name="type" required onchange="toggleFields()">
+        <option value="income">Income</option>
+        <option value="expense">Expense</option>
+      </select>
+
+      <label for="source">Source (for Income):</label>
+      <input type="text" id="source" name="source" placeholder="e.g., Salary, Casino" />
+
+      <label for="category">Category (for Expense):</label>
+      <input type="text" id="category" name="category" placeholder="e.g., Food, Entertainment" disabled />
+
+      <label for="amount">Amount:</label>
+      <div class="amount-input">
+        <input type="number" id="amount" name="amount" required min="0" step="0.01" placeholder="0.00" />
+      </div>
+
+      <label for="date">Date:</label>
+      <input type="date" id="date" name="date" />
+
+      <button type="submit">Add Transaction</button>
+    </form>
+  </div>
+
+  <script>
+    function toggleFields() {
+      var type = document.getElementById("type").value;
+      var categoryField = document.getElementById("category");
+      var sourceField = document.getElementById("source");
+
+      if (type === "income") {
+        categoryField.disabled = true;
+        categoryField.value = "";  // Clear the category input if income is selected
+        sourceField.disabled = false;  // Enable source field for income
+      } else {
+        categoryField.disabled = false;  // Enable category field for expense
+        sourceField.disabled = true;  // Disable source field for expense
+        sourceField.value = "";  // Clear the source input if expense is selected
+      }
+    }
+
+    // Initialize form with correct state on page load
+    window.onload = function() {
+      toggleFields();
+      
+      // Set default date to today
+      var today = new Date();
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+      var yyyy = today.getFullYear();
+      today = yyyy + '-' + mm + '-' + dd;
+      document.getElementById("date").value = today;
+    };
+  </script>
+</body>
+</html>

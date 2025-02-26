@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistics</title>
+    <link rel="stylesheet" href="/stylesheets/statscss.css">
+</head>
+<body>
+    <h1>User Statistics</h1>
+
+    <% if (typeof error != 'undefined') { %>
+        <div class="error-message">
+            <p><%= error %></p>
+        </div>
+    <% } %>
+
+    <div class="header-container">
+        <a href="/mainPage" class="back-link">
+          <span class="back-icon">←</span>
+        </a>
+      </div>
+
+    <div class="statistics-container">
+        <!-- Display Income -->
+        <div class="table-container">
+            <h2>Income</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Source</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% income.forEach(function(incomeItem) { %>
+                        <tr>
+                            <td><%= incomeItem.source %></td>
+                            <td><%= incomeItem.sum %></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Add Budget Section -->
+        <h2>Set Budget Goals</h2>
+        <form action="/setbudget" method="POST">
+            <label for="category">Category</label>
+            <input type="text" name="category" id="category" required placeholder="Enter category (e.g., Food, Transport)" />
+
+            <label for="budget">Budget Amount</label>
+            <input type="number" name="budget" id="budget" min="0" step="0.01" required />
+
+            <button type="submit">Set Budget</button>
+        </form>
+
+        <!-- Display Expenses with Budget Goals -->
+        <div class="table-container">
+            <h2>Expenses</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Amount</th>
+                        <th>Budget</th>
+                        <th>Progress</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% expenses.forEach(function(expenseItem) { %>
+                        <tr>
+                            <td><%= expenseItem.category %></td>
+                            <td><%= expenseItem.sum %></td>
+                            <td>
+                                <% let budget = budgets.find(b => b.category === expenseItem.category); %>
+                                <%= budget ? budget.budget_amount : "Not Set" %>
+                            </td>
+                            <td>
+                                <% let progress = budget ? (expenseItem.sum / budget.budget_amount) * 100 : 0; %>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: <%= progress %>%"><%= progress.toFixed(2) %>%</div>
+                                </div>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

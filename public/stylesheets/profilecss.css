@@ -1,0 +1,118 @@
+/* General Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #333;
+}
+
+.content {
+    width: 70%;
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+h2 {
+    color: #2e3d49;
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+strong {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.profile-actions {
+    margin-top: 20px;
+}
+
+.logout {
+    margin-top: 30px;
+}
+
+.btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.logout-btn {
+    background-color: #dc3545;
+}
+
+.logout-btn:hover {
+    background-color: #c82333;
+}
+
+/* Go Back Button */
+.go-back-btn {
+    background-color: #28a745;
+}
+
+.go-back-btn:hover {
+    background-color: #218838;
+}
+
+.go-back {
+    margin-top: 20px;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .content {
+        width: 90%;
+        padding: 20px;
+    }
+
+    h2 {
+        font-size: 28px;
+    }
+
+    p {
+        font-size: 16px;
+    }
+}
+
+/* Back Link Positioning */
+.back-link {
+    position: absolute;
+    top: 10px;  /* Adjust to position correctly */
+    left: 20px;
+    font-size: 24px;
+    text-decoration: none;
+    color: #007bff;
+    display: flex;
+    align-items: center;
+}
+
+.back-icon {
+    font-size: 28px;
+    margin-right: 5px;
+}
+
+/* Styling for Top-Right Links */
+

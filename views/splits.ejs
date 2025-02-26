@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Split</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+    <div class="max-w-3xl mx-auto my-10 p-6 bg-white rounded-lg shadow-md">
+
+        <!-- Back Button -->
+        <div class="mb-4">
+            <a href="/mainPage" class="text-gray-600 hover:text-gray-900 flex items-center">
+                <span class="text-2xl mr-2">←</span> Back
+            </a>
+        </div>
+
+        <h1 class="text-3xl font-bold text-center mb-6">Expense Split Dashboard</h1>
+
+        <!-- You Owe Section -->
+        <h2 class="text-xl font-semibold mb-2">You Owe</h2>
+        <% if (byMe.length === 0) { %>
+            <p class="text-gray-500">You have no pending payments.</p>
+        <% } else { %>
+            <table class="w-full bg-white rounded-md shadow-md overflow-hidden">
+                <thead class="bg-red-500 text-white">
+                    <tr>
+                        <th class="p-3 text-left">Recipient</th>
+                        <th class="p-3 text-left">Amount</th>
+                        <th class="p-3 text-left">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y">
+                    <% byMe.forEach(expense => { %>
+                        <tr class="hover:bg-gray-100">
+                            <td class="p-3"><%= expense.name %></td>
+                            <td class="p-3">$<%= expense.amount %></td>
+                            <td class="p-3">
+                                <form action="/split/settle" method="POST">
+                                    <input type="hidden" name="recipient_id" value="<%= expense.user_id %>">
+                                    <input type="hidden" name="share_id" value="<%= expense.share_id %>">
+                                    <button type="submit" class="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600">Settle</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        <% } %>
+
+        <!-- You Are Owed Section -->
+        <h2 class="text-xl font-semibold mt-6 mb-2">You Are Owed</h2>
+        <% if (toMe.length === 0) { %>
+            <p class="text-gray-500">No one owes you money yet.</p>
+        <% } else { %>
+            <table class="w-full bg-white rounded-md shadow-md overflow-hidden">
+                <thead class="bg-green-500 text-white">
+                    <tr>
+                        <th class="p-3 text-left">Payer</th>
+                        <th class="p-3 text-left">Amount</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y">
+                    <% toMe.forEach(expense => { %>
+                        <tr class="hover:bg-gray-100">
+                            <td class="p-3"><%= expense.name %></td>
+                            <td class="p-3">$<%= expense.amount %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        <% } %>
+
+        <!-- Create New Expense Split -->
+        <h2 class="text-xl font-semibold mt-6 mb-2">Create New Expense Split</h2>
+        <div class="bg-gray-50 p-4 rounded-md shadow-md">
+            <form action="/split/create" method="POST" class="space-y-4">
+                <div>
+                    <label class="block text-gray-700 font-medium">Select Recipient:</label>
+                    <select name="recipient_id" required class="w-full mt-1 p-2 border rounded-md">
+                        <% if (users.length === 0) { %>
+                            <option disabled>No users available</option>
+                        <% } else { %>
+                            <% users.forEach(user => { %>
+                                <option value="<%= user.id %>"><%= user.name %></option>
+                            <% }) %>
+                        <% } %>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 font-medium">Amount:</label>
+                    <input type="number" name="amount" required min="1" class="w-full mt-1 p-2 border rounded-md">
+                </div>
+
+                <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">
+                    Create Split
+                </button>
+            </form>
+        </div>
+
+    </div>
+
+</body>
+</html>

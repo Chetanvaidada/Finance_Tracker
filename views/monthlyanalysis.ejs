@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Report</title>
+    <link rel="stylesheet" href="/stylesheets/reportcss.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Monthly Income vs Expenses Report</h1>
+
+    <div class="header-container">
+        <a href="/mainPage" class="back-link">
+          <span class="back-icon">←</span>
+        </a>
+      </div>
+
+    <!-- Table for Data -->
+    <table>
+        <thead>
+            <tr>
+                <th>Month</th>
+                <th>Total Income</th>
+                <th>Total Expenses</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% reportData.forEach(row => { %>
+                <tr>
+                    <td><%= row.month %></td>
+                    <td><%= row.total_income %></td>
+                    <td><%= row.total_expense %></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+
+    <!-- Chart Container -->
+    <div class="chart-container">
+        <canvas id="monthlyReportChart"></canvas>
+    </div>
+
+    <script>
+        // Data for the chart
+        const reportData = [
+            <% reportData.forEach(row => { %>
+                { month: "<%= row.month %>", income: <%= row.total_income %>, expense: <%= row.total_expense %> },
+            <% }) %>
+        ];
+
+        // Extract labels and data
+        const labels = reportData.map(row => row.month);
+        const incomeData = reportData.map(row => row.income);
+        const expenseData = reportData.map(row => row.expense);
+
+        // Create the chart
+        const ctx = document.getElementById('monthlyReportChart').getContext('2d');
+        const monthlyReportChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Total Income',
+                        data: incomeData,
+                        backgroundColor: 'rgba(74, 144, 226, 0.6)',
+                        borderColor: 'rgba(74, 144, 226, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Total Expenses',
+                        data: expenseData,
+                        backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Amount'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Month'
+                        }
+                    }
+                },
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Monthly Income vs Expenses'
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

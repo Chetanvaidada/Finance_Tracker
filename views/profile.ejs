@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile</title>
+  <link rel="stylesheet" href="/stylesheets/profilecss.css">
+</head>
+<body>
+
+  <div class="header-container">
+    <a href="/mainPage" class="back-link">
+      <span class="back-icon">←</span>
+    </a>
+  </div>
+
+  <div class="content">
+    <h2>Your Profile</h2>
+
+    <% if (typeof user !== 'undefined') { %>
+      <p><strong>Name:</strong> <%= user.name %></p>
+      <p><strong>Email:</strong> <%= user.email %></p>
+
+      <div class="profile-actions">
+        <a href="/user/edit" class="btn">Edit Profile</a>
+      </div>
+    <% } else { %>
+      <p>User not found. Please <a href="/user/login">log in</a>.</p>
+    <% } %>
+
+    <div class="logout">
+      <a href="/user/logout" class="btn logout-btn">Logout</a>
+    </div>
+
+    
+  </div>
+
+</body>
+</html>

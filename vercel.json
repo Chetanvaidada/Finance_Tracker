@@ -18,7 +18,8 @@
       "GOOGLE_CLIENT_ID": "@google_client_id",
       "GOOGLE_CLIENT_SECRET": "@google_client_secret",
       "EMAIL_USER": "@email_user",
-      "EMAIL_PASS": "@email_pass"
+      "EMAIL_PASS": "@email_pass",
+      "DATABASE_URL": "@database_url"
     }
   }
   

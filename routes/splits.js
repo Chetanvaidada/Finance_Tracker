@@ -32,8 +32,6 @@ router.post("/settle", authenticateJWT, async (req, res) => {
     const { share_id } = req.body;
     const user_id = req.user.id;
 
-    console.log(recipient_id,user_id);
-
     try {
         // Get expense details
         const result = await pool.query(`

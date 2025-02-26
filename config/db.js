@@ -6,7 +6,6 @@ const pool = new Pool({
   ssl: {
     rejectUnauthorized: false, // Required for Supabase
   },
-  max: 1
 });
 
 pool.on("connect", () => {

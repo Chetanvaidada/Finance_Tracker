@@ -11,15 +11,6 @@
         "src": "/(.*)",
         "dest": "app.js"
       }
-    ],
-    "env": {
-      "JWT_SECRET": "@jwt_secret",
-      "JWT_EXPIRY": "@jwt_expiry",
-      "GOOGLE_CLIENT_ID": "@google_client_id",
-      "GOOGLE_CLIENT_SECRET": "@google_client_secret",
-      "EMAIL_USER": "@email_user",
-      "EMAIL_PASS": "@email_pass",
-      "DATABASE_URL": "@database_url"
-    }
+    ]
   }
   

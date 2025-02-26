@@ -29,8 +29,10 @@ router.post("/create", authenticateJWT, async (req, res) => {
 });
 
 router.post("/settle", authenticateJWT, async (req, res) => {
-    const { recipient_id,share_id } = req.body;
+    const { share_id } = req.body;
     const user_id = req.user.id;
+
+    console.log(recipient_id,user_id);
 
     try {
         // Get expense details
@@ -43,6 +45,7 @@ router.post("/settle", authenticateJWT, async (req, res) => {
         }
 
         const amount = result.rows[0].amount;
+        const recipient_id = result.rows[0].owed_to;
 
         // Record payment as an expense
         await pool.query(`

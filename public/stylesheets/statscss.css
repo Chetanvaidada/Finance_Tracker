@@ -129,7 +129,7 @@ button[type="submit"]:hover {
     color: #fff;
     line-height: 20px;
     font-size: 12px;
-    min-width: 40px; /* Add minimum width for small percentages */
+    min-width: 20px; /* Add minimum width for small percentages */
     position: relative; /* Add this */
 }
 

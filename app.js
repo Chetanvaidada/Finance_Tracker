@@ -119,30 +119,6 @@ app.post('/setbudget', authenticateJWT, async (req, res) => {
     const user_id = req.user.id;
 
     try {
-//         const checkCategoryQuery = `SELECT 1 FROM expenses WHERE user_id = $1 AND category = $2 LIMIT 1`;
-//         const categoryExists = await pool.query(checkCategoryQuery, [user_id, category]);
-
-//         // If category does not exist, send a warning message
-//         if (categoryExists.rowCount === 0) {
-//             const user_id = req.user.id;
-//         const totalIncome = await getIncomeStats(user_id);
-//         const totalExpense = await getExpenseStats(user_id);
-
-//         const budgetQuery = `
-//     SELECT category, budget_amount
-//     FROM budget_goals
-//     WHERE user_id = $1
-//   `;
-//   const budgetResult = await pool.query(budgetQuery, [user_id]);
-//             return res.render('stats', {
-//                 error: `The category "${category}" is not found in your expenses. Please add an expense first.`,
-//                 // Pass other necessary data to the view (e.g., income, expenses)
-//                 income: totalIncome,
-//                 expenses: totalExpense,
-//                 budgets: budgetResult.rows
-//             });
-//         }
-
         // Insert or update the budget goal
         const insertQuery = `
             INSERT INTO budget_goals (user_id, category, budget_amount)
@@ -153,6 +129,23 @@ app.post('/setbudget', authenticateJWT, async (req, res) => {
         await pool.query(insertQuery, [user_id, category, budget]);     
 
         // Redirect to the statistics page
+        res.redirect('/statistics');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+app.post('/budgetDelete', authenticateJWT, async (req, res) => {
+    const { category } = req.body;
+    const user_id = req.user.id;
+
+    try {
+        const Query = `
+            DELETE FROM budget_goals WHERE user_id = $1 AND category = $2;
+        `;
+        await pool.query(Query, [user_id, category]);     
+
         res.redirect('/statistics');
     } catch (err) {
         console.error(err);

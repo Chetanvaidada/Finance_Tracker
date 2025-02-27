@@ -80,6 +80,7 @@
                         <th>Amount</th>
                         <th>Budget</th>
                         <th>Progress</th>
+                        <th>Delete Budget?</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -105,6 +106,12 @@
                                         <%= progress.toFixed(2) %>%
                                     </div>
                                 </div>
+                            </td>
+                            <td>
+                                <form action="/budgetDelete" method="POST">
+                                    <input type="hidden" name="category" value="<%= budgetitem.category %>">
+                                    <button type="submit" id="deleteBudget">Delete</button>
+                                </form>
                             </td>
                         </tr>
                     <% }); %>

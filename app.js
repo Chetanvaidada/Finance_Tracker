@@ -119,30 +119,29 @@ app.post('/setbudget', authenticateJWT, async (req, res) => {
     const user_id = req.user.id;
 
     try {
-        // Check if the category exists in the expenses table
-        const checkCategoryQuery = `SELECT 1 FROM expenses WHERE user_id = $1 AND category = $2 LIMIT 1`;
-        const categoryExists = await pool.query(checkCategoryQuery, [user_id, category]);
+//         const checkCategoryQuery = `SELECT 1 FROM expenses WHERE user_id = $1 AND category = $2 LIMIT 1`;
+//         const categoryExists = await pool.query(checkCategoryQuery, [user_id, category]);
 
-        // If category does not exist, send a warning message
-        if (categoryExists.rowCount === 0) {
-            const user_id = req.user.id;
-        const totalIncome = await getIncomeStats(user_id);
-        const totalExpense = await getExpenseStats(user_id);
+//         // If category does not exist, send a warning message
+//         if (categoryExists.rowCount === 0) {
+//             const user_id = req.user.id;
+//         const totalIncome = await getIncomeStats(user_id);
+//         const totalExpense = await getExpenseStats(user_id);
 
-        const budgetQuery = `
-    SELECT category, budget_amount
-    FROM budget_goals
-    WHERE user_id = $1
-  `;
-  const budgetResult = await pool.query(budgetQuery, [user_id]);
-            return res.render('stats', {
-                error: `The category "${category}" is not found in your expenses. Please add an expense first.`,
-                // Pass other necessary data to the view (e.g., income, expenses)
-                income: totalIncome,
-                expenses: totalExpense,
-                budgets: budgetResult.rows
-            });
-        }
+//         const budgetQuery = `
+//     SELECT category, budget_amount
+//     FROM budget_goals
+//     WHERE user_id = $1
+//   `;
+//   const budgetResult = await pool.query(budgetQuery, [user_id]);
+//             return res.render('stats', {
+//                 error: `The category "${category}" is not found in your expenses. Please add an expense first.`,
+//                 // Pass other necessary data to the view (e.g., income, expenses)
+//                 income: totalIncome,
+//                 expenses: totalExpense,
+//                 budgets: budgetResult.rows
+//             });
+//         }
 
         // Insert or update the budget goal
         const insertQuery = `

@@ -42,8 +42,25 @@
                 </tbody>
             </table>
         </div>
-
-        <!-- Add Budget Section -->
+        <div class="table-container">
+            <h2>Expenses</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% expenses.forEach(function(expenseItem) { %>
+                        <tr>
+                            <td><%= expenseItem.category %></td>
+                            <td><%= expenseItem.sum %></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
         <h2>Set Budget Goals</h2>
         <form action="/setbudget" method="POST">
             <label for="category">Category</label>
@@ -54,10 +71,8 @@
 
             <button type="submit">Set Budget</button>
         </form>
-
-        <!-- Display Expenses with Budget Goals -->
         <div class="table-container">
-            <h2>Expenses</h2>
+            <h2>Budget Progress</h2>
             <table>
                 <thead>
                     <tr>
@@ -68,25 +83,35 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% expenses.forEach(function(expenseItem) { %>
+                    <% budgets.forEach(function(budgetitem) { %>
                         <tr>
-                            <td><%= expenseItem.category %></td>
-                            <td><%= expenseItem.sum %></td>
+                            <td><%= budgetitem.category %></td>
                             <td>
-                                <% let budget = budgets.find(b => b.category === expenseItem.category); %>
-                                <%= budget ? budget.budget_amount : "Not Set" %>
+                                <% let expense = expenses.find(e => e.category === budgetitem.category); %>
+                                <%= expense ? expense.sum : "0" %>
                             </td>
                             <td>
-                                <% let progress = budget ? (expenseItem.sum / budget.budget_amount) * 100 : 0; %>
+                                <%= budgetitem.budget_amount %>
+                            </td>
+                            <td>
+                                <% 
+                                    let budget = budgetitem.budget_amount || 1; // Prevent division by zero
+                                    let expenseAmount = expense ? expense.sum : 0;
+                                    let progress = budget > 0 ? (expenseAmount / budget) * 100 : 0;
+                                    let displayWidth = Math.min(progress, 100);
+                                %>
                                 <div class="progress-bar">
-                                    <div class="progress-bar-fill" style="width: <%= progress %>%"><%= progress.toFixed(2) %>%</div>
+                                    <div class="progress-bar-fill" style="width: <%= displayWidth %>%">
+                                        <%= progress.toFixed(2) %>%
+                                    </div>
                                 </div>
                             </td>
                         </tr>
                     <% }); %>
                 </tbody>
-            </table>
+            </table>            
         </div>
+        
     </div>
 </body>
 </html>

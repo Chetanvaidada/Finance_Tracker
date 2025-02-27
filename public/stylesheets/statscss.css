@@ -119,6 +119,7 @@ button[type="submit"]:hover {
     overflow: hidden;
     height: 20px;
     margin-top: 10px;
+    position: relative; /* Add this */
 }
 
 .progress-bar-fill {
@@ -128,4 +129,29 @@ button[type="submit"]:hover {
     color: #fff;
     line-height: 20px;
     font-size: 12px;
+    min-width: 40px; /* Add minimum width for small percentages */
+    position: relative; /* Add this */
+}
+
+/* Add this new class for text positioning */
+.progress-text {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    line-height: 20px;
+    font-size: 12px;
+    left: 0;
+    color: #000; /* Default color */
+}
+
+/* When progress bar is wide enough, put text inside with white color */
+.progress-bar-fill[style*="width: 30"] ~ .progress-text,
+.progress-bar-fill[style*="width: 4"] ~ .progress-text,
+.progress-bar-fill[style*="width: 5"] ~ .progress-text,
+.progress-bar-fill[style*="width: 6"] ~ .progress-text,
+.progress-bar-fill[style*="width: 7"] ~ .progress-text,
+.progress-bar-fill[style*="width: 8"] ~ .progress-text,
+.progress-bar-fill[style*="width: 9"] ~ .progress-text,
+.progress-bar-fill[style*="width: 100"] ~ .progress-text {
+    color: #fff;
 }
